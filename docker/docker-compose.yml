@@ -1,0 +1,13 @@
+services:
+  backend:
+    build: .
+    volumes:
+      - .:/app/django/mo_books
+      - static:/app/django/mo_books/staticfiles
+    ports:
+      - '8000:8000'
+
+  
+
+volumes:
+  static:

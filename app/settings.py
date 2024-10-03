@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from os import getenv
+from dotenv import load_dotenv
+from urllib.parse import urlparse
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,22 +84,37 @@ WSGI_APPLICATION = "app.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# Add these at the top of your settings.py
 
+
+# Replace the DATABASES section of your settings.py with this
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+db = tmpPostgres.path[1:]
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        # "NAME": os.getenv('DB_NAME'),
-        # "USER": os.environ.get('DB_USER'),
-        # "PASSWORD": os.environ.get('DB_PASS'),
-        # "HOST": os.environ.get('DB_HOST'),
-        # "PORT": os.environ.get('DB_PORT'),
-        "NAME": 'mobooks',
-        "USER": 'postgres',
-        "PASSWORD": 'password',
-        "HOST": 'localhost',
-        "PORT": '5432',
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': db,
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         # "NAME": os.getenv('DB_NAME'),
+#         # "USER": os.environ.get('DB_USER'),
+#         # "PASSWORD": os.environ.get('DB_PASS'),
+#         # "HOST": os.environ.get('DB_HOST'),
+#         # "PORT": os.environ.get('DB_PORT'),
+#         "NAME": 'mobooks',
+#         "USER": 'postgres',
+#         "PASSWORD": 'password',
+#         "HOST": 'localhost',
+#         "PORT": '5432',
+#     }
+# }
 
 
 # Password validation
