@@ -46,7 +46,5 @@ jobs:
       - name: Build and push the image to the registry
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile.dev
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/count-app-demo:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mo-books:latest
